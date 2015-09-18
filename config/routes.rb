@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :roles
   root 'welcome#index'
 
   devise_for :users
