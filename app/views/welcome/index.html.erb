@@ -1,5 +1,5 @@
 <h1>Welcome#index</h1>
 <p>Find me in app/views/welcome/index.html.erb</p>
 <h1>Witaj
-<%= current_user.name + ' ' + current_user.surname %>
+<%= current_user.name unless current_user.name.nil? %>
 </h1>

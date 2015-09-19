@@ -5,8 +5,8 @@
 <table>
   <thead>
     <tr>
-      <th>Datetime</th>
-      <th>Datetime</th>
+      <th>Start</th>
+      <th>Finish</th>
       <th>Patient</th>
       <th>Doctor</th>
       <th>Clinic</th>
@@ -18,8 +18,8 @@
   <tbody>
     <% @visits.each do |visit| %>
       <tr>
-        <td><%= visit.datetime %></td>
-        <td><%= visit.datetime %></td>
+        <td><%= visit.start %></td>
+        <td><%= visit.finish %></td>
         <td><%= visit.patient %></td>
         <td><%= visit.doctor %></td>
         <td><%= visit.clinic %></td>
