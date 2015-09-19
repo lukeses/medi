@@ -8,4 +8,8 @@ class User < ActiveRecord::Base
   has_one :doctor
   has_one :admin
 
+  def admin?
+    self.admin.nil? ? false : true
+  end
+
 end
