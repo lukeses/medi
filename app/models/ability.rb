@@ -6,7 +6,8 @@ class Ability
     #
       user ||= User.new # guest user (not logged in)
       if user.admin?
-        can [:read, :create, :update, :destroy], User
+        can [:read, :create, :update, :destroy, :admin_new, :admin_create, :admin_update], User
+        can [:read, :create, :update, :destroy], Clinic
       end
     #
     # The first argument to `can` is the action you are giving the user
