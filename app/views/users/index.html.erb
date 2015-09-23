@@ -2,6 +2,11 @@
 
 <h1>Listing Users</h1>
 
+<%= link_to "All Users", :action => "index" %>
+
+<%= link_to "Users awaiting approval", :action => "index", :approved => "false" %>
+
+
 <table>
   <thead>
     <tr>
@@ -9,7 +14,8 @@
       <th>Surname</th>
       <th>Pesel</th>
       <th>Address</th>
-      <th colspan="3"></th>
+      <th>Approved</th>
+      <th colspan="4"></th>
     </tr>
   </thead>
 
@@ -20,6 +26,8 @@
         <td><%= user.surname %></td>
         <td><%= user.pesel %></td>
         <td><%= user.address %></td>
+        <td><%= user.approved %></td>
+        <td><%= link_to 'Approve', toggle_approve_user_path(user) if user. approved == false %></td>
         <td><%= link_to 'Show', user %></td>
         <td><%= link_to 'Edit', edit_user_path(user) %></td>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>

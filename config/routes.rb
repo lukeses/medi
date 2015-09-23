@@ -8,7 +8,10 @@ Rails.application.routes.draw do
   }
 
   
-  resources :users
+  resources :users do  
+    get 'toggle_approve', :on => :member  
+  end
+  
   resources :clinics
 
 

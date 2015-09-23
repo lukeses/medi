@@ -7,7 +7,11 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    if params[:approved] == "false"
+      @users = User.where(approved: false)
+    else
+      @users = User.all
+    end
   end
 
   # GET /users/1
@@ -97,6 +101,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def toggle_approve  
+    @user_to_approve = User.find(params[:id])  
+    @user_to_approve.toggle!(:approved) if @user_to_approve.approved == false
+    redirect_to :users, :action => "index", :approved => "false"
+  end
 
 
   private

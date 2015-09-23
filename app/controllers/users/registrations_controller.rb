@@ -12,7 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     build_resource(sign_up_params)
-
+    resource.approved = false
     resource.save
     Patient.create(user_id: resource.id)
     yield resource if block_given?
