@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Weekday:</strong>
+  <%= @workhour.weekday %>
+</p>
+
+<p>
+  <strong>Start:</strong>
+  <%= @workhour.start %>
+</p>
+
+<p>
+  <strong>Finish:</strong>
+  <%= @workhour.finish %>
+</p>
+
+<p>
+  <strong>Work:</strong>
+  <%= @workhour.work %>
+</p>
+
+<%= link_to 'Edit', edit_workhour_path(@workhour) %> |
+<%= link_to 'Back', workhours_path %>

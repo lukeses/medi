@@ -14,6 +14,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def index_doctors
+    @users = User.where(id: Doctor.select(:user_id))
+  end
+
   # GET /users/1
   # GET /users/1.json
   def show
@@ -75,7 +79,7 @@ class UsersController < ApplicationController
 
   def admin_create
     @user = User.new(user_params)
-
+    @user.approved = true
     respond_to do |format|
       if @user.save
         doctor = Doctor.new({user_id: @user.id})

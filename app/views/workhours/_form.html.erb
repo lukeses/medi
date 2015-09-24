@@ -1,0 +1,33 @@
+<%= form_for(@workhour) do |f| %>
+  <% if @workhour.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@workhour.errors.count, "error") %> prohibited this workhour from being saved:</h2>
+
+      <ul>
+      <% @workhour.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :weekday %><br>
+    <%= f.number_field :weekday %>
+  </div>
+  <div class="field">
+    <%= f.label :start %><br>
+    <%= f.time_select :start %>
+  </div>
+  <div class="field">
+    <%= f.label :finish %><br>
+    <%= f.time_select :finish %>
+  </div>
+  <div class="field">
+    <%= f.label :work_id %><br>
+    <%= f.text_field :work_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

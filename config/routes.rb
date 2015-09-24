@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :workhours
+  resources :works
   resources :visits
   root 'welcome#index'
 
@@ -14,7 +16,7 @@ Rails.application.routes.draw do
   
   resources :clinics
 
-
+  get 'users/admin/doctors' => 'users#index_doctors'
 
   get  'users/admin/admin_new' => 'users#admin_new'
   post 'users/admin/admin_create' => 'users#admin_create'
