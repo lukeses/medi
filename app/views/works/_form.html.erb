@@ -11,14 +11,11 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :doctor_id %><br>
-    <%= f.text_field :doctor_id %>
-  </div>
-  <div class="field">
-    <%= f.label :clinic_id %><br>
-    <%= f.text_field :clinic_id %>
-  </div>
+  <%= f.select :doctor_id, options_for_select(@doctors.collect { |doctor|
+    [doctor.user.name.titleize, doctor.id] }, 1), {}, { id: 'doctors_select' } %>
+  <%= f.select :clinic_id, options_for_select(@clinics.collect { |clinic|
+    [clinic.name.titleize, clinic.id] }, 0), {}, { id: 'clinics_select' } %>
+
   <div class="actions">
     <%= f.submit %>
   </div>

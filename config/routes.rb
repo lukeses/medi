@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   
   resources :clinics
 
+  get 'works/form/update_clinics' => 'works#update_clinics'
+
   get 'users/admin/doctors' => 'users#index_doctors'
 
   get  'users/admin/admin_new' => 'users#admin_new'

@@ -14,8 +14,8 @@
   <tbody>
     <% @works.each do |work| %>
       <tr>
-        <td><%= work.doctor %></td>
-        <td><%= work.clinic %></td>
+        <td><%= work.doctor.user.name + ' ' + work.doctor.user.surname %></td>
+        <td><%= work.clinic.name %></td>
         <td><%= link_to 'Show', work %></td>
         <td><%= link_to 'Edit', edit_work_path(work) %></td>
         <td><%= link_to 'Destroy', work, method: :delete, data: { confirm: 'Are you sure?' } %></td>

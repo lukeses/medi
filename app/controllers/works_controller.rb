@@ -15,6 +15,8 @@ class WorksController < ApplicationController
   # GET /works/new
   def new
     @work = Work.new
+    @doctors = Doctor.all
+    @clinics = Clinic.where.not(id: Work.where(doctor_id: Doctor.first).pluck(:clinic_id))
   end
 
   # GET /works/1/edit
@@ -60,6 +62,15 @@ class WorksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
+  def update_clinics
+    @clinics = Clinic.where.not(id: Work.where("doctor_id = ?", params[:doctor_id]).pluck(:clinic_id))
+    respond_to do |format|
+      format.js
+    end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
