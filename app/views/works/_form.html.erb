@@ -12,7 +12,7 @@
   <% end %>
 
   <%= f.select :doctor_id, options_for_select(@doctors.collect { |doctor|
-    [doctor.user.name.titleize, doctor.id] }, 1), {}, { id: 'doctors_select' } %>
+    [doctor.user.name.titleize, doctor.id] }, 1), {}, { id: 'works_doctors_select' } %>
   <%= f.select :clinic_id, options_for_select(@clinics.collect { |clinic|
     [clinic.name.titleize, clinic.id] }, 0), {}, { id: 'clinics_select' } %>
 

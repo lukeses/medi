@@ -4,7 +4,7 @@
 
 
 $ ->
-  $(document).on 'change', '#doctors_select', (evt) ->
+  $(document).on 'change', '#works_doctors_select', (evt) ->
     $.ajax 'form/update_clinics',
       type: 'GET'
       dataType: 'script'

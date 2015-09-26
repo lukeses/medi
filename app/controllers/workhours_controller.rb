@@ -15,6 +15,8 @@ class WorkhoursController < ApplicationController
   # GET /workhours/new
   def new
     @workhour = Workhour.new
+    @works = Work.where(doctor_id: current_user.doctor.id)
+    @weekdays = Time::DAYS_INTO_WEEK
   end
 
   # GET /workhours/1/edit

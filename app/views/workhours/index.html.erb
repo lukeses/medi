@@ -17,9 +17,9 @@
     <% @workhours.each do |workhour| %>
       <tr>
         <td><%= workhour.weekday %></td>
-        <td><%= workhour.start %></td>
-        <td><%= workhour.finish %></td>
-        <td><%= workhour.work %></td>
+        <td><%= workhour.start.strftime("%H:%M") %></td>
+        <td><%= workhour.finish.strftime("%H:%M") %></td>
+        <td><%= workhour.work.clinic.name %></td>
         <td><%= link_to 'Show', workhour %></td>
         <td><%= link_to 'Edit', edit_workhour_path(workhour) %></td>
         <td><%= link_to 'Destroy', workhour, method: :delete, data: { confirm: 'Are you sure?' } %></td>
