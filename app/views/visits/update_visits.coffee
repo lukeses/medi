@@ -4,4 +4,4 @@ $("#visits_doctors_select").empty()
 $("#visits_doctors_select").val(<%= @doctor_id %>)
 
 $("#visits").empty()
-  .append("<%= escape_javascript(render 'possible_visits') %>")
+  .append("<%= escape_javascript(render :partial => 'possible_visits') %>")

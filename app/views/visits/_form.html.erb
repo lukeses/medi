@@ -23,33 +23,23 @@
     <%= f.label :patient_id %><br>
     <%= f.text_field :patient_id %>
   </div>
-  <div class="field">
-    <%= f.label :doctor_id %><br>
-    <%= f.text_field :doctor_id %>
-  </div>
 
-<%= select_date(Time.now) %>
+
 
 
 <!-- <%= select_tag('visits', options_from_collection_for_select(@possible_visits, :first, :last, '2')) %> -->
-<div id="visits">
-  <% @possible_visits.each do |possible_visit| %>
-  <p>
-    <%= possible_visit[0] %>
-    <%= possible_visit[1] %>
-  </p>
-  <% end %>
-</div>
+
+  <%= f.select :clinic_id, options_for_select(@clinics.collect { |clinic|
+    [clinic.name.titleize, clinic.id] }, 0), {}, { id: 'visits_clinics_select' } %>
 
   <%= f.select :doctor_id, options_for_select(@doctors.collect { |doctor|
     [doctor.user.name.titleize, doctor.id] }, 1), {}, { id: 'visits_doctors_select' } %>
 
-  <div class="field">
-    <%= f.label :clinic_id %><br>
-    <%= f.text_field :clinic_id %>
-  </div>
-  <%= f.select :clinic_id, options_for_select(@clinics.collect { |clinic|
-    [clinic.name.titleize, clinic.id] }, 0), {}, { id: 'visits_clinics_select' } %>
+  <%= select_date(Time.now) %>
+
+<div id="visits">
+  <% render :partial => 'possible_visits', :locals=>{:f=>f} %>
+</div>
 
 
   <div class="field">

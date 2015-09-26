@@ -63,6 +63,8 @@ class VisitsController < ApplicationController
   # POST /visits.json
   def create
     @visit = Visit.new(visit_params)
+    time = DateTime.parse(params[:visit_start])
+    @visit.start = DateTime.new(params[:date][:year].to_i, params[:date][:month].to_i, params[:date][:day].to_i, time.strftime('%H').to_i, time.strftime('%M').to_i)
 
     respond_to do |format|
       if @visit.save
