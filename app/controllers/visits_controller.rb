@@ -191,6 +191,11 @@ class VisitsController < ApplicationController
   end
 
 
+  def toggle_confirm  
+    @visit_to_confirm = Visit.find(params[:id])  
+    @visit_to_confirm.toggle!(:confirmed) if @visit_to_confirm.confirmed == false
+    redirect_to :visits, :action => "index"
+  end
 
 
   private

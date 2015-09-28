@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   resources :workhours
   resources :works
-  resources :visits
+  resources :visits do
+    get 'toggle_confirm', :on => :member
+  end
+
   root 'welcome#index'
 
 

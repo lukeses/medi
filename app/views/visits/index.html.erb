@@ -24,6 +24,7 @@
         <td><%= visit.doctor %></td>
         <td><%= visit.clinic %></td>
         <td><%= visit.confirmed %></td>
+        <td><%= link_to 'Confirm', toggle_confirm_visit_path(visit) if visit.confirmed == false %></td>
         <td><%= link_to 'Show', visit %></td>
         <td><%= link_to 'Edit', edit_visit_path(visit) %></td>
         <td><%= link_to 'Destroy', visit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
