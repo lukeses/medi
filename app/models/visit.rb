@@ -34,4 +34,9 @@ class Visit < ActiveRecord::Base
     end
   end
 
+  # def destroy_unconfirmed_visits
+  #   Visit.connection
+  #   Visit.delete_all(confirmed: false, created_at: DateTime.now-10.minutes)
+  # end
+
 end

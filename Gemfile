@@ -31,6 +31,10 @@ gem 'devise'
 gem 'cancancan', '~> 1.10'
 
 gem 'ae-validates_timeliness'
+
+gem 'whenever', :require => false
+
+gem 'activepesel'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

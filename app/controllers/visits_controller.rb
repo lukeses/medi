@@ -7,6 +7,10 @@ class VisitsController < ApplicationController
     @visits = Visit.where(patient_id: current_user.patient.id)
   end
 
+  def index_visits_for_doctor
+    @visits = Visit.where(doctor_id: current_user.doctor.id, confirmed: true)
+  end
+
   # GET /visits/1
   # GET /visits/1.json
   def show

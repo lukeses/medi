@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     get 'toggle_confirm', :on => :member
   end
 
+  get 'doctor_visits' => 'visits#index_visits_for_doctor'
+
   root 'welcome#index'
 
 
@@ -14,7 +16,7 @@ Rails.application.routes.draw do
 
   
   resources :users do  
-    get 'toggle_approve', :on => :member  
+    get 'toggle_approve', :on => :member
   end
   
   resources :clinics
