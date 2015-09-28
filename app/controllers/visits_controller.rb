@@ -4,7 +4,7 @@ class VisitsController < ApplicationController
   # GET /visits
   # GET /visits.json
   def index
-    @visits = Visit.all
+    @visits = Visit.where(patient_id: current_user.patient.id)
   end
 
   # GET /visits/1
@@ -63,6 +63,8 @@ class VisitsController < ApplicationController
     @visit = Visit.new(visit_params)
     time = DateTime.parse(params[:visit_start])
     @visit.start = DateTime.new(params[:date][:year].to_i, params[:date][:month].to_i, params[:date][:day].to_i, time.strftime('%H').to_i, time.strftime('%M').to_i)
+    @visit.finish = @visit.start + 30.minutes
+    @visit.patient = current_user.patient
 
     respond_to do |format|
       if @visit.save

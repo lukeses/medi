@@ -6,7 +6,8 @@ class Visit < ActiveRecord::Base
   belongs_to :doctor
   belongs_to :clinic
 
-  #validates_time :start, :between => [Workhour.find(doctor_id: self.doctor.id, clinic_id: clinic_id, weekday: start.wday).start, Workhour.find(doctor_id: doctor_id, clinic_id: clinic_id, weekday: start.wday).finish]
+  validates_datetime :start, :after => lambda { DateTime.now },
+                               :before_message => "must be later than now"
   validates :clinic, presence: true
   validates :doctor_id, presence: true
   validate :check_work
