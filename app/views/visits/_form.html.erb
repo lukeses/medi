@@ -27,7 +27,6 @@
 
 
 
-<!-- <%= select_tag('visits', options_from_collection_for_select(@possible_visits, :first, :last, '2')) %> -->
 
   <%= f.select :clinic_id, options_for_select(@clinics.collect { |clinic|
     [clinic.name.titleize, clinic.id] }, 0), {}, { id: 'visits_clinics_select' } %>
@@ -47,6 +46,6 @@
     <%= f.check_box :confirmed %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Create visit', :id=> 'create_visit_button' %>
   </div>
 <% end %>

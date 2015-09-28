@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 send_request_form = () ->
-  $.ajax 'form/update_visits',
+  $.ajax '/visits/form/update_visits',
     type: 'GET'
     dataType: 'script'
     data: {
@@ -18,14 +18,18 @@ send_request_form = () ->
     success: (data, textStatus, jqXHR) ->
       console.log("Dynamic doctor select OK!")
 
+disable_create_visit = () ->
+  $('#create_visit_button').prop( "disabled", true )
 
 
-
+enable_create_visit = () ->
+  $('#create_visit_button').prop( "disabled", false )
 
 
 $ ->
   $(document).on 'change', '#visits_clinics_select', (evt) ->
-    $.ajax 'form/update_visits',
+    disable_create_visit()
+    $.ajax '/visits/form/update_visits',
       type: 'GET'
       dataType: 'script'
       data: {
@@ -42,7 +46,8 @@ $ ->
 
 $ ->
   $(document).on 'change', '#visits_doctors_select', (evt) ->
-    $.ajax 'form/update_visits',
+    disable_create_visit()
+    $.ajax '/visits/form/update_visits',
       type: 'GET'
       dataType: 'script'
       data: {
@@ -60,11 +65,22 @@ $ ->
 $ ->
   $(document).on 'change', '#date_year', (evt) ->
     send_request_form()
+    disable_create_visit()
 
 $ ->
   $(document).on 'change', '#date_month', (evt) ->
     send_request_form()
+    disable_create_visit()
 
 $ ->
   $(document).on 'change', '#date_day', (evt) ->
     send_request_form()
+    disable_create_visit()
+
+$ ->
+  $(document).on 'change', '#visits', (evt) ->
+    if $('input[name=visit_start]:checked').length > 0
+      enable_create_visit()
+
+$ ->
+  disable_create_visit()

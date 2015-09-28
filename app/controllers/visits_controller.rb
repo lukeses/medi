@@ -46,12 +46,10 @@ class VisitsController < ApplicationController
       puts workhour.inspect
       how_many_visits = (workhour.finish - workhour.start) / 30.minutes
       for i in 0..how_many_visits-1 do
-        @possible_visits << [i, workhour.start + i*30.minutes]
+        start_date_to_check = date.change(hour: workhour.start.hour, min: workhour.start.min)
+        @possible_visits << [i, workhour.start + i*30.minutes] unless Visit.exists?(clinic_id: @selected_clinic.id, doctor_id: @doctors.first, start: start_date_to_check)
       end
     end
-
-
-
 
   end
 
@@ -71,6 +69,7 @@ class VisitsController < ApplicationController
         format.html { redirect_to @visit, notice: 'Visit was successfully created.' }
         format.json { render :show, status: :created, location: @visit }
       else
+        set_before_not_valid
         format.html { render :new }
         format.json { render json: @visit.errors, status: :unprocessable_entity }
       end
@@ -113,6 +112,9 @@ class VisitsController < ApplicationController
 
     # selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id])
 
+    puts "Data:"
+    puts date
+
     puts "################"
     selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id]).pluck(:id)
     @workhours = Workhour.where(work_id: selected_works, weekday: date.wday)
@@ -122,7 +124,14 @@ class VisitsController < ApplicationController
       puts workhour.inspect
       how_many_visits = (workhour.finish - workhour.start) / 30.minutes
       for i in 0..how_many_visits-1 do
-        @possible_visits << [i, workhour.start + i*30.minutes]
+        start_date_to_check = date.change(hour: workhour.start.hour, min: workhour.start.min) + (i*30).minutes
+        puts '@@@@@@@@@@@@@@@@@@@@@@@@@'
+        puts start_date_to_check.utc.inspect
+        puts Visit.all.pluck(:start)
+        puts '@@@@@@@@@@@@@@@@@@@@@@@@@'
+        unless Visit.exists?(clinic_id: @selected_clinic.id, doctor_id: params[:doctor_id], start: start_date_to_check)
+          @possible_visits << [i, workhour.start + i*30.minutes]
+        end
       end
     end
 
@@ -150,6 +159,35 @@ class VisitsController < ApplicationController
       format.js
     end
   end
+
+  def set_before_not_valid
+    #@visit = Visit.new
+    @clinics = Clinic.all
+    @selected_clinic = Clinic.first
+    works = Work.where(clinic_id: @selected_clinic)
+    @doctors = Doctor.where(id: works.pluck(:doctor_id))
+    
+#     puts @doctors.inspect
+
+    date = DateTime.now.beginning_of_day
+
+    # selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id])
+
+    puts "################"
+    selected_works = Work.where(clinic_id: @selected_clinic.id, doctor_id: @doctors.first).pluck(:id)
+    @workhours = Workhour.where(work_id: selected_works, weekday: date.wday)
+    @possible_visits = Array.new
+
+    @workhours.each do |workhour|
+      puts workhour.inspect
+      how_many_visits = (workhour.finish - workhour.start) / 30.minutes
+      for i in 0..how_many_visits-1 do
+        start_date_to_check = date.change(hour: workhour.start.hour, min: workhour.start.min)
+        @possible_visits << [i, workhour.start + i*30.minutes] unless Visit.exists?(clinic_id: @selected_clinic.id, doctor_id: @doctors.first, start: start_date_to_check)
+      end
+    end
+  end
+
 
 
 

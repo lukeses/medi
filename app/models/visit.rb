@@ -1,11 +1,36 @@
 class Visit < ActiveRecord::Base
+
+
+
   belongs_to :patient
   belongs_to :doctor
   belongs_to :clinic
 
+  #validates_time :start, :between => [Workhour.find(doctor_id: self.doctor.id, clinic_id: clinic_id, weekday: start.wday).start, Workhour.find(doctor_id: doctor_id, clinic_id: clinic_id, weekday: start.wday).finish]
+  validates :clinic, presence: true
+  validates :doctor_id, presence: true
+  validate :check_work
+  validate :check_workhour
+  validate :check_visit
 
+  def check_work
+    if doctor.id.nil? || clinic.id.nil? || !Work.exists?(doctor_id: doctor.id, clinic_id: clinic.id)
+      errors.add(:base, "not exist selected work")
+    end
+  end
 
+  def check_workhour
+    work = Work.find_by(doctor_id: doctor.id, clinic_id: clinic.id)
+    if work.nil? || !Workhour.exists?(work_id: work.id, weekday: start.wday)
+      errors.add(:base, "Doctor does not work in this hours")
+    end
+  end
 
-
+  def check_visit
+    if doctor.id.nil? || Visit.exists?(doctor_id: doctor.id, start: start, finish: finish)
+      errors.add(:base, "Someone reservered this visit earlier")
+      errors.add(:base, Visit.where(doctor_id: doctor.id, start: start, finish: finish).inspect)
+    end
+  end
 
 end
