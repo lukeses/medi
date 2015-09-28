@@ -33,13 +33,19 @@
   </div>
 
   <div class="field">
-    <%= f.label :pesel %><br>
-    <%= f.text_field :pesel %>
-  </div>
-  <div class="field">
     <%= f.label :address %><br>
     <%= f.text_field :address %>
   </div>
+  
+  <%= f.fields_for :doctor, @user.doctor do |doctor_fields| %>
+    <div class="field">
+      <label for="user_doctor_pwz">PWZ: </label>
+    </br>
+      <%= doctor_fields.text_field :pwz %>
+    </div>
+  <% end %>
+
+
   <div class="actions">
     <%= f.submit %>
   </div>
