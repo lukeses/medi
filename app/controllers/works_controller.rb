@@ -35,6 +35,8 @@ class WorksController < ApplicationController
         format.html { redirect_to @work, notice: 'Work was successfully created.' }
         format.json { render :show, status: :created, location: @work }
       else
+        @doctors = Doctor.all
+        @clinics = Clinic.where.not(id: Work.where(doctor_id: Doctor.first).pluck(:clinic_id))        
         format.html { render :new }
         format.json { render json: @work.errors, status: :unprocessable_entity }
       end

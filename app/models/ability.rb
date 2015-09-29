@@ -12,7 +12,7 @@ class Ability
         can [:read, :create, :update, :destroy], Workhour
         can [:read, :create, :update, :destroy], Visit
       elsif user.patient?
-        can [:read, :create, :update, :destroy], Visit
+        can [:read, :create, :update, :destroy, :update_visits, :toggle_confirm], Visit
       elsif user.doctor?
         can [:read, :create, :update, :destroy], Workhour
         can [:read, :index_visits_for_doctor], Visit

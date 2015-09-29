@@ -12,15 +12,6 @@
   <% end %>
 
 
-  <div class="field">
-    <%= f.label :patient_id %><br>
-    <%= f.text_field :patient_id %>
-  </div>
-
-
-
-
-
   <%= f.select :clinic_id, options_for_select(@clinics.collect { |clinic|
     [clinic.name.titleize, clinic.id] }, 0), {}, { id: 'visits_clinics_select' } %>
 
@@ -34,11 +25,7 @@
 </div>
 
 
-  <div class="field">
-    <%= f.label :confirmed %><br>
-    <%= f.check_box :confirmed %>
-  </div>
   <div class="actions">
-    <%= f.submit 'Create visit', :id=> 'create_visit_button' %>
+    <%= f.submit 'Create visit', :id=> 'create_visit_button', :class => "btn btn-primary" %>
   </div>
 <% end %>

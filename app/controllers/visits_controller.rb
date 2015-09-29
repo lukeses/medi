@@ -75,6 +75,7 @@ class VisitsController < ApplicationController
     @visit.start = DateTime.new(params[:date][:year].to_i, params[:date][:month].to_i, params[:date][:day].to_i, time.strftime('%H').to_i, time.strftime('%M').to_i)
     @visit.finish = @visit.start + 30.minutes
     @visit.patient = current_user.patient
+    @visit.confirmed = false
 
     respond_to do |format|
       if @visit.save
@@ -87,6 +88,8 @@ class VisitsController < ApplicationController
       end
     end
   end
+
+  
 
   # PATCH/PUT /visits/1
   # PATCH/PUT /visits/1.json

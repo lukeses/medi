@@ -5,7 +5,7 @@
 
 $ ->
   $(document).on 'change', '#works_doctors_select', (evt) ->
-    $.ajax 'form/update_clinics',
+    $.ajax '/works/form/update_clinics',
       type: 'GET'
       dataType: 'script'
       data: {
