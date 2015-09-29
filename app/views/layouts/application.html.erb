@@ -13,26 +13,27 @@
   <%= menu_group do %>
     <%= menu_item "Home", root_path %>
     <%= menu_divider %>
-    <%= menu_item "Users", users_path  %>
-    <%= menu_item "Visits", visits_path  %>
-    <%= menu_item "Clinics", clinics_path %>
-    <%= menu_item "Works", works_path %>
-    <%= menu_item "Workhours", workhours_path %>
+    <%= menu_item "Users", users_path if !current_user.nil? && current_user.admin? %>
+    <%= menu_item "Visits", visits_path if !current_user.nil? && (current_user.patient? || current_user.admin?) %>
+    <%= menu_item "Visits", doctor_visits_path if !current_user.nil? && current_user.doctor? %>
+    <%= menu_item "Clinics", clinics_path if !current_user.nil? && current_user.admin? %>
+    <%= menu_item "Works", works_path if !current_user.nil? && current_user.admin? %>
+    <%= menu_item "Workhours", workhours_path if !current_user.nil? && current_user.doctor? %>
   <% end %>
 <% end %>
 
 <div class="container-fluid">
   <div class="row" style="margin-top: 50px;">
     <% if user_signed_in? %>
-      <%= link_to 'Logout', destroy_user_session_path, :method => :delete, :class => "btn btn-primary", :style=>'color:#FFFFFF;' %>        
+      <%= link_to 'Logout', destroy_user_session_path, :method => :delete, :class => "btn btn-primary pull-right", :style=>'color:#FFFFFF;' %>        
     <% else %>
-      <%= link_to 'Login', new_user_session_path, :class => "btn btn-primary", :style=>'color:#FFFFFF;'  %>  
+      <%= link_to 'Login', new_user_session_path, :class => "btn btn-primary pull-right", :style=>'color:#FFFFFF;'  %>  
     <% end %>
 
     <% if user_signed_in? %>
-      <%= link_to 'Edit registration', edit_user_registration_path, :class => "btn btn-primary", :style=>'color:#FFFFFF;' %>
+      <%= link_to 'Edit registration', edit_user_registration_path, :class => "btn btn-primary pull-right", :style=>'color:#FFFFFF;' %>
     <% else %>
-      <%= link_to 'Register', new_user_registration_path, :class => "btn btn-primary", :style=>'color:#FFFFFF;'  %>
+      <%= link_to 'Register', new_user_registration_path, :class => "btn btn-primary pull-right", :style=>'color:#FFFFFF;'  %>
     <% end %>
   </row>
 </div>

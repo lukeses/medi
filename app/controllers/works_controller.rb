@@ -1,6 +1,8 @@
 class WorksController < ApplicationController
   before_action :set_work, only: [:show, :edit, :update, :destroy]
 
+  load_and_authorize_resource
+
   # GET /works
   # GET /works.json
   def index

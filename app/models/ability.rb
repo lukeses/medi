@@ -8,7 +8,19 @@ class Ability
       if user.admin?
         can [:read, :create, :update, :destroy, :admin_new, :admin_create, :admin_update, :toggle_approve, :index_doctors], User
         can [:read, :create, :update, :destroy], Clinic
+        can [:read, :create, :update, :destroy], Work
+        can [:read, :create, :update, :destroy], Workhour
+        can [:read, :create, :update, :destroy], Visit
+      elsif user.patient?
+        can [:read, :create, :update, :destroy], Visit
+      elsif user.doctor?
+        can [:read, :create, :update, :destroy], Workhour
+        can [:read, :index_visits_for_doctor], Visit
       end
+
+
+
+
     #
     # The first argument to `can` is the action you are giving the user
     # permission to do.

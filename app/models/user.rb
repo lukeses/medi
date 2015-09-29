@@ -27,6 +27,14 @@ accepts_nested_attributes_for :doctor
     self.admin.nil? ? false : true
   end
 
+  def doctor?
+    self.doctor.nil? ? false : true
+  end
+
+  def patient?
+    self.patient.nil? ? false : true
+  end
+
   def active_for_authentication? 
     super && approved? 
   end 
