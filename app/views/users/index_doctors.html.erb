@@ -2,13 +2,13 @@
 
 <h1>Listing Users</h1>
 
-<%= link_to "All Users", :action => "index" %>
+<%= link_to "All Users", {:controller => :users, :action => "index"}, :class => "btn btn-default" %>
 
-<%= link_to "Users awaiting approval", :action => "index", :approved => "false" %>
+<%= link_to "Users awaiting approval", {:controller => :users, :action => "index", :approved => "false"}, :class => "btn btn-default" %>
 
-<%= link_to "Doctors", :action => "index_doctors" %>
+<%= link_to "Doctors", {:controller => :users, :action => "index_doctors"}, :class => "btn btn-default" %>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
@@ -39,5 +39,5 @@
 
 <br>
 
-<%= link_to 'New User', users_admin_admin_new_path %>
+<%= link_to 'New User', users_admin_admin_new_path, :class => "btn btn-primary", :style=>'color:#FFFFFF;' %>
 

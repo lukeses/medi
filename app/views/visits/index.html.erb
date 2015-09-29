@@ -2,7 +2,7 @@
 
 <h1>Listing Visits</h1>
 
-<table>
+<table class='table'>
   <thead>
     <tr>
       <th>Start</th>
@@ -18,11 +18,11 @@
   <tbody>
     <% @visits.each do |visit| %>
       <tr>
-        <td><%= visit.start %></td>
-        <td><%= visit.finish %></td>
-        <td><%= visit.patient %></td>
-        <td><%= visit.doctor %></td>
-        <td><%= visit.clinic %></td>
+        <td><%= visit.start.strftime("%H:%M") %></td>
+        <td><%= visit.finish.strftime("%H:%M") unless visit.finish.nil? %></td>
+        <td><%= visit.patient.user.name %></td>
+        <td><%= visit.doctor.user.name %></td>
+        <td><%= visit.clinic.name %></td>
         <td><%= visit.confirmed %></td>
         <td><%= link_to 'Confirm', toggle_confirm_visit_path(visit) if visit.confirmed == false %></td>
         <td><%= link_to 'Show', visit %></td>
@@ -35,4 +35,4 @@
 
 <br>
 
-<%= link_to 'New Visit', new_visit_path %>
+<%= link_to 'New Visit', new_visit_path, :class => "btn btn-primary", :style=>'color:#FFFFFF;' %>

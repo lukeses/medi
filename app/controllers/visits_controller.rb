@@ -4,7 +4,11 @@ class VisitsController < ApplicationController
   # GET /visits
   # GET /visits.json
   def index
-    @visits = Visit.where(patient_id: current_user.patient.id)
+    if current_user.admin?
+      @visits = Visit.all
+    else
+      @visits = Visit.where(patient_id: current_user.patient.id)
+    end
   end
 
   def index_visits_for_doctor
