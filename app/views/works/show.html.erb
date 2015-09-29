@@ -2,12 +2,13 @@
 
 <p>
   <strong>Doctor:</strong>
-  <%= @work.doctor %>
+  <%= @work.doctor.user.name unless @work.doctor.user.name.nil? %>
+  <%= @work.doctor.user.surname unless @work.doctor.user.surname.nil? %>
 </p>
 
 <p>
   <strong>Clinic:</strong>
-  <%= @work.clinic %>
+  <%= @work.clinic.name unless  @work.clinic.name.nil? %>
 </p>
 
 <%= link_to 'Edit', edit_work_path(@work) %> |

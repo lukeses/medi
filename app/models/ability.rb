@@ -8,7 +8,7 @@ class Ability
       if user.admin?
         can [:read, :create, :update, :destroy, :admin_new, :admin_create, :admin_update, :toggle_approve, :index_doctors], User
         can [:read, :create, :update, :destroy], Clinic
-        can [:read, :create, :update, :destroy], Work
+        can [:read, :create, :update, :destroy, :update_clinics], Work
         can [:read, :create, :update, :destroy], Workhour
         can [:read, :create, :update, :destroy], Visit
       elsif user.patient?

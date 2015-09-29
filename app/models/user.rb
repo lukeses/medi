@@ -9,7 +9,7 @@ before_destroy :destroy_doctor
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_one :patient, :dependent => :destroy
+  has_one :patient, :dependent => :delete
   has_one :doctor, :dependent => :delete
   has_one :admin
 

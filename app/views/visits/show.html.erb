@@ -2,27 +2,29 @@
 
 <p>
   <strong>Datetime:</strong>
-  <%= @visit.start %>
+  <%= @visit.start.strftime("%D %M %Y %H:%M") unless @visit.start.nil? %>
 </p>
 
 <p>
   <strong>Datetime:</strong>
-  <%= @visit.finish %>
+  <%= @visit.finish.strftime("%D %M %Y %H:%M") unless @visit.finish.nil? %>
 </p>
 
 <p>
   <strong>Patient:</strong>
-  <%= @visit.patient %>
+  <%= @visit.patient.user.name unless @visit.patient.user.name.nil? %>
+    <%= @visit.patient.user.surname unless @visit.patient.user.surname.nil? %>
 </p>
 
 <p>
   <strong>Doctor:</strong>
-  <%= @visit.doctor %>
+  <%= @visit.doctor.user.name unless @visit.doctor.user.name.nil? %>
+  <%= @visit.doctor.user.surname unless @visit.doctor.user.surname.nil? %>
 </p>
 
 <p>
   <strong>Clinic:</strong>
-  <%= @visit.clinic %>
+  <%= @visit.clinic.name unless @visit.clinic.name.nil? %>
 </p>
 
 <p>
