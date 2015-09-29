@@ -35,6 +35,8 @@ gem 'ae-validates_timeliness'
 gem 'whenever', :require => false
 
 gem 'activepesel'
+
+gem "twitter-bootstrap-rails"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -8,6 +8,21 @@
 </head>
 <body>
 
+
+<%= nav_bar fixed: :top, brand: "Medi", responsive: true do %>
+  <%= menu_group do %>
+    <%= menu_item "Home", root_path %>
+    <%= menu_divider %>
+    <%= menu_item "Users", users_path  %>
+    <%= menu_item "Visits", visits_path  %>
+    <%= menu_item "Clinics", clinics_path %>
+    <%= menu_item "Works", works_path %>
+    <%= menu_item "Workhours", workhours_path %>
+  <% end %>
+<% end %>
+
+
+
 <ul class="hmenu">
   <%= render 'devise/menu/registration' %>
   <%= render 'devise/menu/login' %>
