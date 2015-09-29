@@ -21,12 +21,21 @@
   <% end %>
 <% end %>
 
+<div class="container-fluid">
+  <div class="row" style="margin-top: 50px;">
+    <% if user_signed_in? %>
+      <%= link_to 'Logout', destroy_user_session_path, :method => :delete, :class => "btn btn-primary", :style=>'color:#FFFFFF;' %>        
+    <% else %>
+      <%= link_to 'Login', new_user_session_path, :class => "btn btn-primary", :style=>'color:#FFFFFF;'  %>  
+    <% end %>
 
-
-<ul class="hmenu">
-  <%= render 'devise/menu/registration' %>
-  <%= render 'devise/menu/login' %>
-</ul>
+    <% if user_signed_in? %>
+      <%= link_to 'Edit registration', edit_user_registration_path, :class => "btn btn-primary", :style=>'color:#FFFFFF;' %>
+    <% else %>
+      <%= link_to 'Register', new_user_registration_path, :class => "btn btn-primary", :style=>'color:#FFFFFF;'  %>
+    <% end %>
+  </row>
+</div>
 
 
 <%= yield %>
