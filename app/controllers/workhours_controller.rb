@@ -6,7 +6,8 @@ class WorkhoursController < ApplicationController
   # GET /workhours
   # GET /workhours.json
   def index
-    @workhours = Workhour.all
+    works = Work.where(doctor_id: current_user.doctor.id)
+    @workhours = Workhour.where(work_id: works.pluck(:id))
   end
 
   # GET /workhours/1
