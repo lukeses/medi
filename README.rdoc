@@ -1,28 +1,31 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version 2.2.2
 
 * System dependencies
+  Postgresql
+
+* Download
+  git clone git@github.com:lukeses/medi.git
 
 * Configuration
+  Edit app/config/database.yml for proper configuration of Postgresql
 
-* Database creation
+* Setting up environment
+  bundle install
 
-* Database initialization
+* Database
+  bundle exec rake db:create
+  bundle exec rake db:migrate
+  bundle exec rake db:seed
 
-* How to run the test suite
+* Services
+  whenever --write-crontab
 
-* Services (job queues, cache servers, search engines, etc.)
+* How to run project
+  rails server
 
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+* First user created is Admin, more info in app/db/seeds.rb where first User is created.
