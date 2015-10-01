@@ -18,15 +18,14 @@
   <tbody>
     <% @visits.each do |visit| %>
       <tr>
-        <td><%= visit.start.strftime("%H:%M") %></td>
-        <td><%= visit.finish.strftime("%H:%M") unless visit.finish.nil? %></td>
-        <td><%= visit.patient.user.name %></td>
-        <td><%= visit.doctor.user.name %></td>
+        <td><%= visit.start.strftime("%D %H:%M") %></td>
+        <td><%= visit.finish.strftime("%D %H:%M") unless visit.finish.nil? %></td>
+        <td><%= visit.patient.user.name + ' ' + visit.patient.user.surname %></td>
+        <td><%= visit.doctor.user.name + ' ' + visit.doctor.user.surname %></td>
         <td><%= visit.clinic.name %></td>
         <td><%= visit.confirmed %></td>
         <td><%= link_to 'Confirm', toggle_confirm_visit_path(visit) if visit.confirmed == false %></td>
         <td><%= link_to 'Show', visit %></td>
-        <td><%= link_to 'Edit', edit_visit_path(visit) %></td>
         <td><%= link_to 'Destroy', visit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -36,3 +35,5 @@
 <br>
 
 <%= link_to 'New Visit', new_visit_path, :class => "btn btn-primary", :style=>'color:#FFFFFF;' %>
+<%= link_to 'Book first possible to clinic', book_in_clinic_path, :class => "btn btn-primary", :style=>'color:#FFFFFF;' %>
+<%= link_to 'Book first possible to doctor', book_to_doctor_path, :class => "btn btn-primary", :style=>'color:#FFFFFF;' %>

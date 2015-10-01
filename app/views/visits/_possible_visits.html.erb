@@ -1,7 +1,7 @@
   <% @possible_visits.each do |possible_visit| %>
   <p>
-    <%= possible_visit[0] %>
-    <%= possible_visit[1] %>
-    <%= radio_button_tag :visit_start, possible_visit[1] %>
+    <%= possible_visit.start.strftime("%H:%M") %>
+    <%= possible_visit.finish %>
+    <%= link_to 'Book', book_visit_path(possible_visit) %>
   </p>
   <% end %>

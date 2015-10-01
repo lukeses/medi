@@ -3,12 +3,18 @@ Rails.application.routes.draw do
   resources :works
   resources :visits do
     get 'toggle_confirm', :on => :member
+    get 'book', :on => :member
   end
 
   get 'doctor_visits' => 'visits#index_visits_for_doctor'
 
   root 'welcome#index'
 
+  get 'book_in_clinic' => 'visits#new_first_clinic'
+  post 'book_in_clinic_create' => 'visits#create_first_clinic'
+
+  get 'book_to_doctor' => 'visits#new_first_doctor'
+  post 'book_to_doctor_create' => 'visits#create_first_doctor'
 
   devise_for :users, controllers: {
     registrations: 'users/registrations'

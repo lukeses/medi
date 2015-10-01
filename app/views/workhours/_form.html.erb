@@ -11,10 +11,7 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :weekday %><br>
-    <%= f.number_field :weekday %>
-  </div>
+
     <%= f.select :weekday, options_for_select(@weekdays.collect { |weekday|
     [weekday[0], weekday[1]] }, 1), {}, { id: 'weekdays_select' } %>
   <div class="field">
@@ -24,10 +21,6 @@
   <div class="field">
     <%= f.label :finish %><br>
     <%= f.time_select :finish %>
-  </div>
-  <div class="field">
-    <%= f.label :work_id %><br>
-    <%= f.text_field :work_id %>
   </div>
   <%= f.select :work_id, options_for_select(@works.collect { |work|
     [work.clinic.name.titleize, work.id] }, 1), {}, { id: 'works_select' } %>

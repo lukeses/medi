@@ -19,7 +19,7 @@ class WorkhoursController < ApplicationController
   def new
     @workhour = Workhour.new
     @works = Work.where(doctor_id: current_user.doctor.id)
-    @weekdays = Time::DAYS_INTO_WEEK
+    @weekdays = {:monday=>1, :tuesday=>2, :wednesday=>3, :thursday=>4, :friday=>5, :saturday=>6, :sunday=>0}
   end
 
   # GET /workhours/1/edit
@@ -30,12 +30,21 @@ class WorkhoursController < ApplicationController
   # POST /workhours.json
   def create
     @workhour = Workhour.new(workhour_params)
+    @workhour.start = @workhour.start.change(day: 1, month: 1, year: 2000)
+    @workhour.finish = @workhour.finish.change(day: 1, month: 1, year: 2000)
+    # @workhour.start = DateTime.new(hour: params[:workhour]['start(4i)'].to_i, min: params[:workhour]['start(5i)'].to_i)
+    # @workhour.finish = DateTime.new(hour: params[:workhour]['finish(4i)'].to_i, min: params[:workhour]['finish(5i)'].to_i)
+
+# puts WorkhoursHelper::date_from_date_select_params(params[:workhour], :start)
+# puts WorkhoursHelper::date_from_date_select_params(params[:workhour], :finish)
 
     respond_to do |format|
       if @workhour.save
         format.html { redirect_to @workhour, notice: 'Workhour was successfully created.' }
         format.json { render :show, status: :created, location: @workhour }
       else
+        @works = Work.where(doctor_id: current_user.doctor.id)
+        @weekdays = {:monday=>1, :tuesday=>2, :wednesday=>3, :thursday=>4, :friday=>5, :saturday=>6, :sunday=>0}
         format.html { render :new }
         format.json { render json: @workhour.errors, status: :unprocessable_entity }
       end

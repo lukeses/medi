@@ -10,9 +10,9 @@ class Ability
         can [:read, :create, :update, :destroy], Clinic
         can [:read, :create, :update, :destroy, :update_clinics], Work
         can [:read, :create, :update, :destroy], Workhour
-        can [:read, :create, :update, :destroy], Visit
+        can [:read, :update, :destroy], Visit
       elsif user.patient?
-        can [:read, :create, :update, :destroy, :update_visits, :toggle_confirm], Visit
+        can [:read, :create, :update, :destroy, :update_visits, :toggle_confirm, :book, :new_first_clinic, :create_first_clinic, :create_first_doctor, :new_first_doctor], Visit
       elsif user.doctor?
         can [:read, :create, :update, :destroy], Workhour
         can [:read, :index_visits_for_doctor], Visit

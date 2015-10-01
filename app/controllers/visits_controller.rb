@@ -7,7 +7,7 @@ class VisitsController < ApplicationController
   # GET /visits.json
   def index
     if current_user.admin?
-      @visits = Visit.all
+      @visits = Visit.where(["patient_id IS NOT NULL"])
     else
       @visits = Visit.where(patient_id: current_user.patient.id)
     end
@@ -41,25 +41,27 @@ class VisitsController < ApplicationController
     works = Work.where(clinic_id: @selected_clinic)
     @doctors = Doctor.where(id: works.pluck(:doctor_id))
     
-#     puts @doctors.inspect
 
-    date = DateTime.now.beginning_of_day
+    @possible_visits = Visit.where(clinic_id: Clinic.first, doctor_id: @doctors.first, start: DateTime.now..DateTime.now+30.days) 
+# #     puts @doctors.inspect
 
-    # selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id])
+#     date = DateTime.now.beginning_of_day
 
-    puts "################"
-    selected_works = Work.where(clinic_id: @selected_clinic.id, doctor_id: @doctors.first).pluck(:id)
-    @workhours = Workhour.where(work_id: selected_works, weekday: date.wday)
-    @possible_visits = Array.new
+#     # selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id])
 
-    @workhours.each do |workhour|
-      puts workhour.inspect
-      how_many_visits = (workhour.finish - workhour.start) / 30.minutes
-      for i in 0..how_many_visits-1 do
-        start_date_to_check = date.change(hour: workhour.start.hour, min: workhour.start.min)
-        @possible_visits << [i, workhour.start + i*30.minutes] unless Visit.exists?(clinic_id: @selected_clinic.id, doctor_id: @doctors.first, start: start_date_to_check)
-      end
-    end
+#     puts "################"
+#     selected_works = Work.where(clinic_id: @selected_clinic.id, doctor_id: @doctors.first).pluck(:id)
+#     @workhours = Workhour.where(work_id: selected_works, weekday: date.wday)
+#     @possible_visits = Array.new
+
+#     @workhours.each do |workhour|
+#       puts workhour.inspect
+#       how_many_visits = (workhour.finish - workhour.start) / 30.minutes
+#       for i in 0..how_many_visits-1 do
+#         start_date_to_check = date.change(hour: workhour.start.hour, min: workhour.start.min)
+#         @possible_visits << [i, workhour.start + i*30.minutes] unless Visit.exists?(clinic_id: @selected_clinic.id, doctor_id: @doctors.first, start: start_date_to_check)
+#       end
+#     end
 
   end
 
@@ -108,7 +110,12 @@ class VisitsController < ApplicationController
   # DELETE /visits/1
   # DELETE /visits/1.json
   def destroy
-    @visit.destroy
+    if @visit.start > DateTime.now
+      @visit.destroy
+    else
+      flash[:notice] = "You can't delete past visit."
+    end
+
     respond_to do |format|
       format.html { redirect_to visits_url, notice: 'Visit was successfully destroyed.' }
       format.json { head :no_content }
@@ -116,39 +123,41 @@ class VisitsController < ApplicationController
   end
 
   def update_visits
-    @clinics = Clinic.all
+    date = DateTime.new(params[:date_year].to_i, params[:date_month].to_i, params[:date_day].to_i)
+    @possible_visits = Visit.where(start: date.beginning_of_day..date.end_of_day, clinic_id: params[:clinic_id], doctor_id: params[:doctor_id]).where(["patient_id IS NULL"])
+#     @clinics = Clinic.all
     @selected_clinic = Clinic.find(params[:clinic_id])
     works = Work.where(clinic_id: @selected_clinic)
     @doctors = Doctor.where(id: works.pluck(:doctor_id))
-    
-#     puts @doctors.inspect
+    @doctor_id = params[:doctor_id]
+# #     puts @doctors.inspect
 
-    date = DateTime.new(params[:date_year].to_i, params[:date_month].to_i, params[:date_day].to_i)
+#     date = DateTime.new(params[:date_year].to_i, params[:date_month].to_i, params[:date_day].to_i)
 
-    # selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id])
+#     # selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id])
 
-    puts "Data:"
-    puts date
+#     puts "Data:"
+#     puts date
 
-    puts "################"
-    selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id]).pluck(:id)
-    @workhours = Workhour.where(work_id: selected_works, weekday: date.wday)
-    @possible_visits = Array.new
+#     puts "################"
+#     selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id]).pluck(:id)
+#     @workhours = Workhour.where(work_id: selected_works, weekday: date.wday)
+#     @possible_visits = Array.new
 
-    @workhours.each do |workhour|
-      puts workhour.inspect
-      how_many_visits = (workhour.finish - workhour.start) / 30.minutes
-      for i in 0..how_many_visits-1 do
-        start_date_to_check = date.change(hour: workhour.start.hour, min: workhour.start.min) + (i*30).minutes
-        puts '@@@@@@@@@@@@@@@@@@@@@@@@@'
-        puts start_date_to_check.utc.inspect
-        puts Visit.all.pluck(:start)
-        puts '@@@@@@@@@@@@@@@@@@@@@@@@@'
-        unless Visit.exists?(clinic_id: @selected_clinic.id, doctor_id: params[:doctor_id], start: start_date_to_check)
-          @possible_visits << [i, workhour.start + i*30.minutes]
-        end
-      end
-    end
+#     @workhours.each do |workhour|
+#       puts workhour.inspect
+#       how_many_visits = (workhour.finish - workhour.start) / 30.minutes
+#       for i in 0..how_many_visits-1 do
+#         start_date_to_check = date.change(hour: workhour.start.hour, min: workhour.start.min) + (i*30).minutes
+#         puts '@@@@@@@@@@@@@@@@@@@@@@@@@'
+#         puts start_date_to_check.utc.inspect
+#         puts Visit.all.pluck(:start)
+#         puts '@@@@@@@@@@@@@@@@@@@@@@@@@'
+#         unless Visit.exists?(clinic_id: @selected_clinic.id, doctor_id: params[:doctor_id], start: start_date_to_check)
+#           @possible_visits << [i, workhour.start + i*30.minutes]
+#         end
+#       end
+#     end
 
 
     # @workhours = Array.new
@@ -158,10 +167,10 @@ class VisitsController < ApplicationController
     #     puts workhour.inspect
     #   end
     # end
- puts "################"
+ # puts "################"
 
- @doctor_id = params[:doctor_id]
- puts "Doktor ID: #{@doctor_id}"
+ # @doctor_id = params[:doctor_id]
+ # puts "Doktor ID: #{@doctor_id}"
     #how_many_visits = (Work.where(clinic_id: @selected_clinic, doctor_id: @doctors.first).first.workhours.where(weekday: date.wday).first.finish -  Work.where(clinic_id: @selected_clinic, doctor_id: @doctors.first).first.workhours.where(weekday: date.wday).first.finish) / 30.minutes
 # puts 'ile wizyt'
 # puts how_many_visits
@@ -210,6 +219,54 @@ class VisitsController < ApplicationController
     redirect_to :visits, :action => "index"
   end
 
+  def book 
+    @visit_to_book = Visit.find(params[:id])  
+    if @visit_to_book.patient.nil?
+      @visit_to_book.patient = current_user.patient
+    else
+      flash[:notice] = "Someone reserved this visit earlier"
+    end
+    @visit_to_book.save
+    redirect_to :visits, :action => "index"
+  end
+
+
+  def new_first_clinic
+    @visit = Visit.new
+    @clinics = Clinic.all
+    @selected_clinic = Clinic.first
+  end
+
+  def create_first_clinic
+    @visit_to_book = Visit.where(['start > ?', DateTime.now]).where(clinic_id: params[:visit][:clinic_id]).where(["patient_id IS NULL"]).order(:start).first
+    if @visit_to_book.nil?
+      flash[:notice] = "Choose another clinic"
+    elsif @visit_to_book.patient.nil?
+      @visit_to_book.patient = current_user.patient
+      @visit_to_book.save
+    else
+      flash[:notice] = "Someone reserved this visit earlier"
+    end
+    redirect_to :visits, :action => "index"
+  end
+
+  def new_first_doctor
+    @visit = Visit.new
+    @doctors = Doctor.all
+  end
+
+  def create_first_doctor
+    @visit_to_book = Visit.where(['start > ?', DateTime.now]).where(doctor_id: params[:visit][:doctor_id]).where(["patient_id IS NULL"]).order(:start).first
+    if @visit_to_book.nil?
+      flash[:notice] = "Choose another doctor"
+    elsif @visit_to_book.patient.nil?
+      @visit_to_book.patient = current_user.patient
+      @visit_to_book.save
+    else
+      flash[:notice] = "Someone reserved this visit earlier"
+    end
+    redirect_to :visits, :action => "index"
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
