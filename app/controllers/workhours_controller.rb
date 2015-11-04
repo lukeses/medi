@@ -32,11 +32,6 @@ class WorkhoursController < ApplicationController
     @workhour = Workhour.new(workhour_params)
     @workhour.start = @workhour.start.change(day: 1, month: 1, year: 2000)
     @workhour.finish = @workhour.finish.change(day: 1, month: 1, year: 2000)
-    # @workhour.start = DateTime.new(hour: params[:workhour]['start(4i)'].to_i, min: params[:workhour]['start(5i)'].to_i)
-    # @workhour.finish = DateTime.new(hour: params[:workhour]['finish(4i)'].to_i, min: params[:workhour]['finish(5i)'].to_i)
-
-# puts WorkhoursHelper::date_from_date_select_params(params[:workhour], :start)
-# puts WorkhoursHelper::date_from_date_select_params(params[:workhour], :finish)
 
     respond_to do |format|
       if @workhour.save

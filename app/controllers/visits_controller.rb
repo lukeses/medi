@@ -24,45 +24,13 @@ class VisitsController < ApplicationController
 
   # GET /visits/new
   def new
-    # @visit = Visit.new
-    # @clinics = Clinic.all
-    # @doctors = Doctor.where(id: Clinic.first.works.pluck(:doctor_id))
-    # how_many_visits = (Work.last.workhours.where(weekday: 6).first.finish -  Work.last.workhours.where(weekday: 6).first.start) / 30.minutes
-    # @possible_visits = Array.new
-
-    # for i in 0..how_many_visits-1 do
-    #   @possible_visits << [i, Work.last.workhours.where(weekday: 6).first.start + i*30.minutes ]
-    # end
-
-
     @visit = Visit.new
     @clinics = Clinic.all
     @selected_clinic = Clinic.first
     works = Work.where(clinic_id: @selected_clinic)
     @doctors = Doctor.where(id: works.pluck(:doctor_id))
     
-
     @possible_visits = Visit.where(clinic_id: Clinic.first, doctor_id: @doctors.first, start: DateTime.now..DateTime.now+30.days) 
-# #     puts @doctors.inspect
-
-#     date = DateTime.now.beginning_of_day
-
-#     # selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id])
-
-#     puts "################"
-#     selected_works = Work.where(clinic_id: @selected_clinic.id, doctor_id: @doctors.first).pluck(:id)
-#     @workhours = Workhour.where(work_id: selected_works, weekday: date.wday)
-#     @possible_visits = Array.new
-
-#     @workhours.each do |workhour|
-#       puts workhour.inspect
-#       how_many_visits = (workhour.finish - workhour.start) / 30.minutes
-#       for i in 0..how_many_visits-1 do
-#         start_date_to_check = date.change(hour: workhour.start.hour, min: workhour.start.min)
-#         @possible_visits << [i, workhour.start + i*30.minutes] unless Visit.exists?(clinic_id: @selected_clinic.id, doctor_id: @doctors.first, start: start_date_to_check)
-#       end
-#     end
-
   end
 
   # GET /visits/1/edit
@@ -125,60 +93,11 @@ class VisitsController < ApplicationController
   def update_visits
     date = DateTime.new(params[:date_year].to_i, params[:date_month].to_i, params[:date_day].to_i)
     @possible_visits = Visit.where(start: date.beginning_of_day..date.end_of_day, clinic_id: params[:clinic_id], doctor_id: params[:doctor_id]).where(["patient_id IS NULL"])
-#     @clinics = Clinic.all
     @selected_clinic = Clinic.find(params[:clinic_id])
     works = Work.where(clinic_id: @selected_clinic)
     @doctors = Doctor.where(id: works.pluck(:doctor_id))
     @doctor_id = params[:doctor_id]
-# #     puts @doctors.inspect
 
-#     date = DateTime.new(params[:date_year].to_i, params[:date_month].to_i, params[:date_day].to_i)
-
-#     # selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id])
-
-#     puts "Data:"
-#     puts date
-
-#     puts "################"
-#     selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id]).pluck(:id)
-#     @workhours = Workhour.where(work_id: selected_works, weekday: date.wday)
-#     @possible_visits = Array.new
-
-#     @workhours.each do |workhour|
-#       puts workhour.inspect
-#       how_many_visits = (workhour.finish - workhour.start) / 30.minutes
-#       for i in 0..how_many_visits-1 do
-#         start_date_to_check = date.change(hour: workhour.start.hour, min: workhour.start.min) + (i*30).minutes
-#         puts '@@@@@@@@@@@@@@@@@@@@@@@@@'
-#         puts start_date_to_check.utc.inspect
-#         puts Visit.all.pluck(:start)
-#         puts '@@@@@@@@@@@@@@@@@@@@@@@@@'
-#         unless Visit.exists?(clinic_id: @selected_clinic.id, doctor_id: params[:doctor_id], start: start_date_to_check)
-#           @possible_visits << [i, workhour.start + i*30.minutes]
-#         end
-#       end
-#     end
-
-
-    # @workhours = Array.new
-    # selected_works.each do |work|
-    #   work.workhours .each do |workhour|
-    #     @workhours << work
-    #     puts workhour.inspect
-    #   end
-    # end
- # puts "################"
-
- # @doctor_id = params[:doctor_id]
- # puts "Doktor ID: #{@doctor_id}"
-    #how_many_visits = (Work.where(clinic_id: @selected_clinic, doctor_id: @doctors.first).first.workhours.where(weekday: date.wday).first.finish -  Work.where(clinic_id: @selected_clinic, doctor_id: @doctors.first).first.workhours.where(weekday: date.wday).first.finish) / 30.minutes
-# puts 'ile wizyt'
-# puts how_many_visits
-#     @possible_visits = Array.new
-
-#     for i in 0..how_many_visits-1 do
-#       @possible_visits << [i, Work.last.workhours.where(weekday: 6).first.start + i*30.minutes ]
-#     end
     respond_to do |format|
       format.js
     end
@@ -190,14 +109,9 @@ class VisitsController < ApplicationController
     @selected_clinic = Clinic.first
     works = Work.where(clinic_id: @selected_clinic)
     @doctors = Doctor.where(id: works.pluck(:doctor_id))
-    
-#     puts @doctors.inspect
 
     date = DateTime.now.beginning_of_day
 
-    # selected_works = Work.where(clinic_id: params[:clinic_id], doctor_id: params[:doctor_id])
-
-    puts "################"
     selected_works = Work.where(clinic_id: @selected_clinic.id, doctor_id: @doctors.first).pluck(:id)
     @workhours = Workhour.where(work_id: selected_works, weekday: date.wday)
     @possible_visits = Array.new
